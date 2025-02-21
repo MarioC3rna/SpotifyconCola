@@ -3,6 +3,7 @@
 ## 📌 Descripción
 
 Este proyecto explora una modificación en la estructura de reproducción de canciones en Spotify, priorizando ciertas canciones sobre otras. En lugar de utilizar un sistema FIFO (First In, First Out) o una reproducción completamente aleatoria, se implementa una **cola de prioridad** que reorganiza las canciones en función de su importancia asignada.
+Este programa necesita del ID del cliente y el ID secreto, estos dos ids se colocan en el archivo .env para que funcione correctamente 
 
 ## 🚀 Objetivo
 
