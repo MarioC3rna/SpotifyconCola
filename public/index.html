@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reproductor de música personalizado con mis 10 canciones más escuchadas">
+    <meta name="theme-color" content="#1DB954">
+    
+    <title>Top 10 Canciones | Mi Reproductor de Música</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="player-header">
+            <h1>
+                <span class="music-icon">🎵</span>
+                Mis 10 canciones más escuchadas
+            </h1>
+        </header>
+
+        <main class="player-main">
+            <section class="now-playing-section" aria-live="polite">
+                <h2 class="visually-hidden">Reproduciendo ahora</h2>
+                <div id="now-playing" class="now-playing-card">
+                    <div class="song-info">
+                        <div class="album-art">
+                            <img src="placeholder-album.jpg" alt="Portada del álbum" id="album-cover">
+                        </div>
+                        <div class="track-info">
+                            <p class="song-title" id="current-song">Selecciona una canción</p>
+                            <p class="artist-name" id="current-artist">--</p>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="song-progress"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="current-time">0:00</span>
+                            <span id="total-time">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="playlist-section">
+                <h2>Lista de reproducción</h2>
+                <ul id="queue" class="song-list" role="list"></ul>
+            </section>
+
+            <section class="controls-section">
+                <div class="controls" role="toolbar" aria-label="Controles de reproducción">
+                    <button id="previous" class="control-btn" aria-label="Anterior">
+                        ⏮️
+                    </button>
+                    <button id="play-pause" class="control-btn control-btn-main" aria-label="Reproducir">
+                        ⏯️
+                    </button>
+                    <button id="play-next" class="control-btn" aria-label="Siguiente">
+                        ⏭️
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="player-footer">
+            <p class="player-status" id="player-status" aria-live="polite"></p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
