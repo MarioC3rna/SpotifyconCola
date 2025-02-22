@@ -3,6 +3,7 @@
 ## 📌 Descripción
 
 Este proyecto explora una modificación en la estructura de reproducción de canciones en Spotify, priorizando ciertas canciones sobre otras. En lugar de utilizar un sistema FIFO (First In, First Out) o una reproducción completamente aleatoria, se implementa una **cola de prioridad** que reorganiza las canciones en función de su importancia asignada.
+Este programa necesita del ID del cliente y el ID secreto, estos dos ids se colocan en el archivo .env para que funcione correctamente 
 
 ## 🚀 Objetivo
 
@@ -35,6 +36,10 @@ Se ha diseñado una interfaz atractiva inspirada en el esquema de colores de Spo
 ## 📌 Notas Adicionales
 
 Este sistema implica que la web estará en constante reordenamiento, evaluando la prioridad de cada canción insertada y ajustando la lista de reproducción en consecuencia.
+
+--prompt--
+Ahora eres experto en Front end 
+Necesito que me generes un archivo .hmtl y styles .css para para esta app echa en JavaScrip, que sea enterno a los colores de Spotify
 
 📢 **Importante:** Esta implementación no afecta la funcionalidad actual de Spotify, sino que es una exploración teórica y técnica sobre posibles mejoras en su algoritmo de reproducción.
 
