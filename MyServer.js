@@ -13,14 +13,18 @@ import Queue from "./queue.js";
 const app = express();
 const port = 3000;
 
+// Establecer la carpeta pública para servir archivos estáticos como index.html
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
+
+// De claramos como constantes  
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = "http://localhost:3000/callback";
 
+// Declaramos una nueva cola 
 const songQueue = new Queue();
 
 app.get("/login", (req, res) => {

@@ -1,5 +1,13 @@
 // Gestor del reproductor de música
+/**
+ * Clase que gestiona la reproducción de música en Spotify mediante Web Playback SDK.
+ * Maneja la interfaz de usuario, la comunicación con la API de Spotify y la cola de reproducción.
+ */
 class MusicPlayerManager {
+    /**
+     * Inicializa el gestor del reproductor de música.
+     * Obtiene el token de acceso y establece los valores iniciales.
+     */
     constructor() {
         this.token = this.getAccessToken();
         this.player = null;
@@ -7,6 +15,10 @@ class MusicPlayerManager {
         this.initialize();
     }
 
+    /**
+     * Extrae el token de acceso de Spotify de la URL.
+     * @returns {string|null} Token de acceso o null si no está disponible.
+     */
     getAccessToken() {
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
@@ -17,6 +29,11 @@ class MusicPlayerManager {
         return token;
     }
 
+    /**
+     * Inicializa todos los componentes del reproductor.
+     * Carga la lista de canciones, configura los eventos y el SDK de Spotify.
+     * @async
+     */
     async initialize() {
         try {
             await this.loadSongList();
@@ -27,6 +44,10 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Carga la lista de canciones desde el servidor.
+     * @async
+     */
     async loadSongList() {
         try {
             const response = await fetch(`/top-songs?token=${this.token}`);
@@ -37,6 +58,10 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Renderiza la lista de canciones en la interfaz de usuario.
+     * @param {Array} songs - Lista de canciones a mostrar.
+     */
     renderSongList(songs) {
         const playlistElement = document.getElementById('queue');
         playlistElement.innerHTML = '';
@@ -47,6 +72,11 @@ class MusicPlayerManager {
         });
     }
 
+    /**
+     * Crea un elemento HTML para representar una canción en la lista.
+     * @param {Object} song - Objeto que contiene la información de la canción.
+     * @returns {HTMLElement} Elemento DOM que representa la canción.
+     */
     createSongElement(song) {
         const element = document.createElement('li');
         element.className = 'song-item';
@@ -61,12 +91,19 @@ class MusicPlayerManager {
         return element;
     }
 
+    /**
+     * Configura el punto de entrada para inicializar el SDK de Spotify.
+     * // El sdk es un script que se carga en el index.html
+     */
     initializeSpotifySDK() {
         window.onSpotifyWebPlaybackSDKReady = () => {
             this.setupSpotifyPlayer();
         };
     }
 
+    /**
+     * Configura el reproductor de Spotify con los parámetros necesarios.
+     */
     setupSpotifyPlayer() {
         this.player = new Spotify.Player({
             name: 'Reproductor Musical Personalizado',
@@ -78,6 +115,9 @@ class MusicPlayerManager {
         this.connectPlayer();
     }
 
+    /**
+     * Configura los eventos del reproductor de Spotify.
+     */
     setupPlayerListeners() {
         this.player.addListener('ready', ({ device_id }) => {
             this.activateDevice(device_id);
@@ -92,6 +132,10 @@ class MusicPlayerManager {
         });
     }
 
+    /**
+     * Conecta el reproductor de Spotify.
+     * @async
+     */
     async connectPlayer() {
         try {
             const connected = await this.player.connect();
@@ -104,6 +148,11 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Activa el dispositivo de reproducción en la cuenta de Spotify.
+     * @async
+     * @param {string} deviceId - ID del dispositivo a activar.
+     */
     async activateDevice(deviceId) {
         try {
             const response = await fetch('https://api.spotify.com/v1/me/player', {
@@ -125,6 +174,9 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Configura los eventos de los botones de la interfaz.
+     */
     setupEventListeners() {
         const playPauseBtn = document.getElementById('play-pause');
         const nextBtn = document.getElementById('play-next');
@@ -133,6 +185,10 @@ class MusicPlayerManager {
         nextBtn.addEventListener('click', () => this.playNextTrack());
     }
 
+    /**
+     * Alterna entre reproducción y pausa.
+     * @async
+     */
     async togglePlayback() {
         try {
             await this.player.togglePlay();
@@ -142,6 +198,10 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Reproduce la siguiente canción en la cola.
+     * @async
+     */
     async playNextTrack() {
         try {
             const response = await fetch('/play-next');
@@ -160,6 +220,11 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Reproduce una canción específica con su URI.
+     * @async
+     * @param {string} uri - URI de Spotify de la canción a reproducir.
+     */
     async playSong(uri) {
         try {
             const response = await fetch('https://api.spotify.com/v1/me/player/play', {
@@ -177,6 +242,10 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Actualiza la información de la canción actual en la interfaz.
+     * @param {Object} song - Información de la canción que se está reproduciendo.
+     */
     updateNowPlaying(song) {
         const nowPlayingElement = document.getElementById('now-playing');
         nowPlayingElement.innerHTML = `
@@ -188,6 +257,9 @@ class MusicPlayerManager {
         `;
     }
 
+    /**
+     * Elimina la primera canción de la cola visual.
+     */
     removeFirstSongFromQueue() {
         const queueElement = document.getElementById('queue');
         if (queueElement.firstChild) {
@@ -195,6 +267,10 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Actualiza el mensaje de estado del reproductor en la interfaz.
+     * @param {string} message - Mensaje de estado a mostrar.
+     */
     updatePlaybackStatus(message) {
         const statusElement = document.getElementById('player-status');
         if (statusElement) {
@@ -202,13 +278,19 @@ class MusicPlayerManager {
         }
     }
 
+    /**
+     * Maneja los errores mostrándolos en consola y en la interfaz.
+     * @param {string} message - Mensaje de error.
+     */
     handleError(message) {
         console.error(message);
         this.updatePlaybackStatus(`Error: ${message}`);
     }
 }
 
-// Inicializar el reproductor
+/**
+ * Inicializa el reproductor cuando el DOM está completamente cargado.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     new MusicPlayerManager();
 });
